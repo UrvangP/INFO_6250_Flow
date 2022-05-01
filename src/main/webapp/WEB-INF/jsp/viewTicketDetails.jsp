@@ -75,7 +75,11 @@
 
 				<div class="form-outline mb-4">
 		              <label class="form-label">Supporting Document: </label>
-				  <label><a href="/workflow/files/${ticket.filePath}" download>${ticket.filePath}</a></label>
+				  <label>${ticket.filePath}</label>
+				  <form class="form-inline my-2 my-lg-0"  method="GET" action="/workflow/ticket/download">
+					<input type="hidden" name="filename" value="C:/workflowFiles/${ticket.filePath}" />
+                			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Download</button>
+            		  </form>
 		            </div>
 	
 	          </div>

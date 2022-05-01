@@ -52,7 +52,6 @@
 		            <div class="form-outline mb-4">
 		              <label class="form-label">Status</label>
 		              <form:select path="status" value="${tickets.status}">
-		              	<form:option class="form-control form-control-lg" value="Open"/>
 		              	<form:option class="form-control form-control-lg" value="In Progress"/>
 		              	<form:option class="form-control form-control-lg" value="Testing"/>
 		              	<form:option class="form-control form-control-lg" value="Completed"/>

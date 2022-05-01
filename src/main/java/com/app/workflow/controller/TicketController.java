@@ -1,6 +1,7 @@
 package com.app.workflow.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -16,7 +17,9 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -227,7 +230,7 @@ public class TicketController {
 			
 			String fileName = "file_" + System.currentTimeMillis() + "" + new Random().nextInt(100000000) + "" + new Random().nextInt(100000000) + ".pdf";
 			
-			String uploadDir = "src/main/webapp/files/";
+			String uploadDir = "C:\\workflowFiles\\";
 			Path uploadPath = Paths.get(uploadDir);
 	        
 	        if (!Files.exists(uploadPath)) {
@@ -318,4 +321,15 @@ public class TicketController {
 		
 		return new ModelAndView("viewMyTickets", "tickets", result);
 	}
+	
+	@GetMapping("/ticket/download")
+	public void getSteamingFile1(HttpServletRequest request, HttpServletResponse response) throws IOException {
+       response.setContentType("application/pdf");
+       response.setHeader("Content-Disposition", "attachment; filename=\""+String.valueOf(request.getParameter("filename"))+"\"");
+       InputStream inputStream = new FileInputStream(new File(String.valueOf(request.getParameter("filename"))));
+           int nRead;
+           while ((nRead = inputStream.read()) != -1) {
+               response.getWriter().write(nRead);
+           }
+    }
 }

@@ -65,6 +65,21 @@ public class TicketDAO extends DAO {
         }
     }
     
+    public List<Ticket> getAllTickets() throws FlowException {
+        
+    	try {
+            begin();
+            String hql = "From Ticket";
+            Query q = getSession().createQuery(hql);
+            List<Ticket> tickets = (List<Ticket>)q.list();
+            commit();
+            return tickets;
+        } catch (HibernateException e) {
+            rollback();
+            throw new FlowException("Could not find tickets", e);
+        }
+    }
+    
     public Ticket getTicketById( long tId ) throws FlowException {
         
     	try {

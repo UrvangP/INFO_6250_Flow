@@ -72,6 +72,11 @@
 		              <label class="form-label">Modified On: </label>
 		              <label>${ticket.modifiedOn}</label>
 		            </div>
+
+				<div class="form-outline mb-4">
+		              <label class="form-label">Supporting Document: </label>
+				  <label><a href="/workflow/files/${ticket.filePath}" download>${ticket.filePath}</a></label>
+		            </div>
 	
 	          </div>
 	        </div>

@@ -18,10 +18,17 @@
     	<nav class="navbar navbar-expand-lg navbar-dark bg-dark flex" style="justify-content: space-between;width: 100%;">
             <H1 style="color:white">Admin Home</H1>
             
-            <form class="form-inline my-2 my-lg-0" style="float: right;"  method="GET" action="/workflow/logout">
-                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-            </form>
-	    </nav>
+		<div class="d-flex">
+            	<form class="form-inline my-2 my-lg-0" method="GET" action="/workflow/ticket/search">
+      			<input class="form-control mr-sm-2" type="search" placeholder="Search" name="searchText">
+      			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search Ticket</button>
+      		</form>
+
+			<form class="form-inline my-2 my-lg-0" style="float: right;"  method="GET" action="/workflow/logout">
+                		<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+            	</form>
+		</div>
+	</nav>
 	    
 	    <h1>Menu</h1>
 	    

@@ -1,10 +1,18 @@
 package com.app.workflow.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -192,7 +200,7 @@ public class TicketController {
 	}
 	
 	@PostMapping("/ticket/edit")
-	public ModelAndView editedTicket( @ModelAttribute("ticket")Ticket ticket, TicketDAO tDAO, HttpServletRequest request ) throws FlowException {
+	public ModelAndView editedTicket( @ModelAttribute("ticket")Ticket ticket, TicketDAO tDAO, HttpServletRequest request ) throws FlowException, IOException {
 		
 		if(request.getSession().getAttribute("user") == null ) {
 			return new ModelAndView("redirect:/");
@@ -207,6 +215,36 @@ public class TicketController {
 			return new ModelAndView("error");
 		}
 		
+		//System.out.println(ticket.getFile().getOriginalFilename());
+		if(ticket.getFile().getOriginalFilename()!="") {
+			
+			if(!ticket.getFile().getOriginalFilename().contains(".pdf")) {
+				StringBuilder msg = new StringBuilder();
+				msg.append("Only pdf files can be uploaded");
+				request.setAttribute("error", msg.toString());
+				return new ModelAndView("error");
+			}
+			
+			String fileName = "file_" + System.currentTimeMillis() + "" + new Random().nextInt(100000000) + "" + new Random().nextInt(100000000) + ".pdf";
+			
+			String uploadDir = "src/main/webapp/files/";
+			Path uploadPath = Paths.get(uploadDir);
+	        
+	        if (!Files.exists(uploadPath)) {
+	            Files.createDirectories(uploadPath);
+	        }
+	        
+	        try (InputStream inputStream = ticket.getFile().getInputStream()) {
+	            Path filePath = uploadPath.resolve(fileName);
+	            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+	        } catch (IOException ioe) {        
+	            throw new IOException("Could not save file: " + fileName, ioe);
+	        }
+	        
+	        oldTicket.setFilePath(fileName);
+
+		}
+        
 		oldTicket.setStatus(ticket.getStatus());
 		oldTicket.setTicketDescription(ticket.getTicketDescription());
 		oldTicket.setTicketSubject(ticket.getTicketSubject());
@@ -246,5 +284,38 @@ public class TicketController {
 		tDAO.delete(ticket);
 		
 		return new ModelAndView("redirect:/");
+	}
+	
+	@GetMapping("/ticket/search")
+	public ModelAndView ticketSearch( TicketDAO tDAO, HttpServletRequest request ) throws FlowException {
+		
+		if(request.getSession().getAttribute("user") == null ) {
+			return new ModelAndView("redirect:/");
+		}
+		
+//		long ticketNum = Long.parseLong(String.valueOf(request.getParameter("ticketNum")));
+//		Ticket ticket = tDAO.getTicketById( ticketNum );
+//		
+//		if( ticket == null ) {
+//			StringBuilder msg = new StringBuilder();
+//			msg.append("Unable to fetch ticket details");
+//			request.setAttribute("error", msg.toString());
+//			return new ModelAndView("error");
+//		}
+		
+		String keyword = String.valueOf(request.getParameter("searchText")).toLowerCase();
+		
+		List<Ticket> tickets = tDAO.getAllTickets();
+		
+		
+		List<Ticket> result = new ArrayList<Ticket>();
+		for(Ticket t : tickets) {
+			String name = t.getTicketSubject().toLowerCase();
+			if(name.contains(keyword)) {
+				result.add(t);
+			}
+		}
+		
+		return new ModelAndView("viewMyTickets", "tickets", result);
 	}
 }

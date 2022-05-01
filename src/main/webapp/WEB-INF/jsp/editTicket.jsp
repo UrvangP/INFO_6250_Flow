@@ -34,7 +34,7 @@
 	
 	            <h3 class="mb-5">Create Ticket</h3>
 	
-				<form:form modelAttribute="ticket" method="post">
+				<form:form modelAttribute="ticket" method="post" enctype="multipart/form-data">
 					<div class="form-outline mb-4">
 		              <label class="form-label" for="typeEmailX-2">Subject</label>
 		              <form:input path="ticketSubject" class="form-control form-control-lg" value="${tickets.ticketSubject}"/>
@@ -63,6 +63,13 @@
 		            	<label class="form-label" for="typeX-2">Assiged User</label>
 					<form:input path="assignedUserName" readonly="true" value="${tickets.assigedTo.userName}"/>
 				</div>
+
+				
+				<div class="form-outline mb-4">
+		            	<label class="form-label" for="typeX-2">Upload Supporting Document</label>
+					<input type="file" name="file" accept="application/pdf" value="${tickets.filePath}"/>
+				</div>
+
 
 
 				<form:hidden path="id" value="${tickets.id}"/>

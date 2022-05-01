@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @Entity
@@ -41,6 +42,26 @@ public class Ticket {
 	String assignedUserName;
 	@Transient
 	long assignedProjectId;
+	
+	String filePath;
+	@Transient
+	MultipartFile file;
+	
+	public String getFilePath() {
+		return this.filePath;
+	}
+	
+	public void setFilePath( String path ) {
+		this.filePath = path;
+	}
+	
+	public MultipartFile getFile() {
+		return this.file;
+	}
+	
+	public void setFile(MultipartFile fl) {
+		this.file = fl;
+	}
 	
 	public long getId() {
 		return id;

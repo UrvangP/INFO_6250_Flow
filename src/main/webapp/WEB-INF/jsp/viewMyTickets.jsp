@@ -11,7 +11,7 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark flex" style="justify-content: space-between;width: 100\%">
-        <H1 style="color:white">My Tickets</H1>
+        <H1 style="color:white">Tickets</H1>
             
     	<div class="d-flex">
             <form class="form-inline my-2 my-lg-0 mx-5"  method="GET" action="/workflow">
@@ -30,7 +30,7 @@
             <tr>
                 <th for="ticketSubject">Ticket Name</th>
                 <th for="status">Status</th>
-                <th for="pick">Edit Ticket</th>
+                <th for="pick">Action</th>
             </tr>
         </thead>
         <tbody>

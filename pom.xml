@@ -11,7 +11,7 @@
 	<groupId>com.app</groupId>
 	<artifactId>workflow</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>workflow</name>
 	<description>Workflow Management Application</description>
 	<properties>
@@ -37,7 +37,7 @@
 		<dependency>
 		    <groupId>org.apache.tomcat</groupId>
 		    <artifactId>tomcat-jasper</artifactId>
-		    <version>9.0.1</version>
+		    <version>9.0.44</version>
 		</dependency>
 
 		
@@ -45,28 +45,25 @@
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
-		    <version>5.6.7.Final</version>
 		</dependency>       
 		
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.28</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
-		<dependency>
-		    <groupId>org.javassist</groupId>
-		    <artifactId>javassist</artifactId>
-		    <version>3.28.0-GA</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+				
 	</dependencies>
 
 	<build>

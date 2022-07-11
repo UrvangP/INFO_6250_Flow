@@ -57,6 +57,13 @@
                 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create Ticket</button>
             			</form>
             			</div>
+
+					<div style="display:inline-block">
+            			<form class="form-inline my-2 my-lg-0"  method="GET" action="/workflow/project/users">
+                    		<input type="hidden" name="projId" value="${proj.id}"/>
+                			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">View Assigned Users</button>
+            			</form>
+            			</div>
             		</td>
                 </tr>
             </c:forEach>

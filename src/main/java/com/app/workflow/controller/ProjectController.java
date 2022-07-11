@@ -234,5 +234,62 @@ public class ProjectController {
 		return new ModelAndView( "viewMyTickets", "tickets", ticket );
 	}
 	
+	@GetMapping("/project/users")
+	public ModelAndView viewProjectUsers( ModelMap model, ProjectDAO pDAO, UserDAO uDAO, HttpServletRequest request ) throws FlowException {
+		
+		if(request.getSession().getAttribute("user") == null ) {
+			return new ModelAndView("redirect:/");
+		}
+		
+		User loggedIn = (User)request.getSession().getAttribute("user");
+		
+		long projectNum = Long.parseLong(String.valueOf(request.getParameter("projId")));
+		
+		model.addAttribute("projId", projectNum);
+		
+		List<Long> projectUsers = uDAO.getEngineersInProject(projectNum);
+		
+		List<User> users = new ArrayList<>();
+		
+		for( long num : projectUsers ) {
+			users.add(uDAO.getUserById(num));
+		}
+		
+		return new ModelAndView( "viewProjectUsers", "users", users );
+	}
+	
+	@PostMapping("/project/users")
+	public ModelAndView removeProjectUsers( ProjectDAO pDAO, UserDAO uDAO, HttpServletRequest request ) throws FlowException {
+		System.out.println("first");
+		if(request.getSession().getAttribute("user") == null ) {
+			return new ModelAndView("redirect:/");
+		}
+		
+		User loggedIn = (User)request.getSession().getAttribute("user");
+		
+		if("Engineer".equals(loggedIn.getRole())) {
+			StringBuilder msg = new StringBuilder();
+			msg.append("Only admins or managers can add users to a project");
+			request.setAttribute("error", msg.toString());
+			return new ModelAndView("error");
+		}
+		
+		long projectNum = Long.parseLong(String.valueOf(request.getParameter("projectId")));
+		long userNum = Long.parseLong(String.valueOf(request.getParameter("userId")));
+		
+		Project projDets = pDAO.getProjectById(projectNum);
+		
+		for( User u : projDets.getUser()) {
+			if(u.getId()==userNum) {
+				projDets.getUser().remove(u);
+				break;
+			}
+		}
+		
+		pDAO.updateProject(projDets);
+		
+		return new ModelAndView( "redirect:/" );
+	}
+	
 	
 }

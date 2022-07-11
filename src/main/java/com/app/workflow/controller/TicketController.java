@@ -324,12 +324,20 @@ public class TicketController {
 	
 	@GetMapping("/ticket/download")
 	public void getSteamingFile1(HttpServletRequest request, HttpServletResponse response) throws IOException {
-       response.setContentType("application/pdf");
-       response.setHeader("Content-Disposition", "attachment; filename=\""+String.valueOf(request.getParameter("filename"))+"\"");
-       InputStream inputStream = new FileInputStream(new File(String.valueOf(request.getParameter("filename"))));
-           int nRead;
-           while ((nRead = inputStream.read()) != -1) {
-               response.getWriter().write(nRead);
-           }
+       
+	   if("C:/workflowFiles/".equals(String.valueOf(request.getParameter("filename")))){
+		   StringBuilder msg = new StringBuilder();
+			msg.append("No supporting document found");
+			request.setAttribute("error", msg.toString());
+	   }
+	   else {
+		   response.setContentType("application/pdf");
+	       response.setHeader("Content-Disposition", "attachment; filename=\""+String.valueOf(request.getParameter("filename"))+"\"");
+	       InputStream inputStream = new FileInputStream(new File(String.valueOf(request.getParameter("filename"))));
+	           int nRead;
+	           while ((nRead = inputStream.read()) != -1) {
+	               response.getWriter().write(nRead);
+	           }
+	   }
     }
 }
